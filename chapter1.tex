@@ -54,7 +54,7 @@ This project focuses on the design and development of Converge, an enterprise-gr
     \item \textbf{Probabilistic Machine Learning / Predictive AI:} The system utilizes deterministic Symbolic AI (Constraint Logic Programming) to guarantee mathematically exact schedules. It will not utilize statistical or generative AI (e.g., Large Language Models or predictive trend analysis), as guessing schedules introduces unacceptable logistical risks for physical resource allocation.
 \end{enumerate}
 
-\subsection{Feature Map (TODO)}
+\subsection{Feature Map}
 \vspace{0.5cm}
 \begingroup
 \hbadness=10000
@@ -70,23 +70,29 @@ Pain Point &
 Feature Description &
 Codename &
 Success Metric \\
-The manual booking workflow consumes an estimated 1 to 2 hours of administrative time daily. Furthermore, relying on a single, massive spreadsheet forces administrators to manually scan and cross reference complex tables to find an available instructor for a requested branch. &
-A constraint-based engine that evaluates multiple variables to display valid slots. When specific instructors are not requested, the system acts as a smart filter to instantly present all qualified instructors who meet the strict time, room, and commute constraints. &
-Auto-Pick &
-Reduce average booking time to under 5 minutes per booking and eliminate the requirement for manual, middleman verification messaging.\\
-
-Administrators struggle to manually calculate and block out cross-branch transit buffers (currently standardized at 30 minutes). &
-A location-aware scheduling algorithm that automatically inserts mandatory travel buffers for consecutive cross-branch classes. &
-Dynamic Buffer &
-Fully automate the application of transit buffers.\\
-
-The lack of room tracking leads to teachers and students arriving to find no physical classroom available. &
-A room allocation system that treats physical classrooms as finite scheduling constraint. &
-Auto-Allocate &
-At most 4 instances of teacher/student arrive with no room available during the deployment phase.\\
-The reliance on a Excel spreadsheet obscures operational insights and creates visual complexity. &
-A unified web calendar interface that provides the Administrator with a clear, filtered view of every individual instructor's booked classes. &
+Teachers submit availability via text paragraphs, admins need to manually intepret and enter data. &
+An account-less, structured web form where teachers select their identity to submit availability, instantly normalizing the data into the database. &
+Data-Ingest Form &
+Eliminate all manual data entry required for instructor availability schedules. \\
+Manual booking workflows waste 1-2 hours daily on complex spreadsheet cross-referencing. &
+Evaluates instructor, room, and time variables as a formal CSP to guarantee conflict-free schedules. &
+Constraint Satisfaction AI Engine &
+Reduce average booking time to under 2 minutes. \\
+Manual transit calculation is highly vulnerable to human error and missed travel time-blocks. &
+Uses a configurable travel matrix to automatically inject physical commute buffers between branches. &
+Transit-Matrix &
+Automate transit enforcement to prevent human errors caused by missed travel buffers. \\
+Lack of capacity tracking leads to overbooking a branch, leaving teachers and students without a physical space upon arrival. &
+Monitors concurrent bookings against the fixed physical capacity of each branch, flagging full time slots to prevent overbooking. &
+Capacity-Check &
+Systematically prevent all instances of branch overbooking. \\
+Static spreadsheets create visual complexity and obscure real-time operational insights. &
+A centralized web interface offering real-time visibility, filtered views, and AI decision trace logs. &
 Converge Hub &
-Successfully migrate daily scheduling visibility from spreadsheets to a unified, real-time web dashboard.\\
+Complete migration from Excel to the web dashboard as the single source of truth. \\
+Without automated disaster recovery, a system failure or database corruption could permanently erase all multi-branch schedules and halt business operations. &
+Generates scheduled, asynchronous database snapshots to provide secure, automated recovery points &
+Auto-Backup &
+Maintain business continuity by enabling rapid system restoration from automated daily snapshots. \\
 \end{tblr}
 \endgroup
