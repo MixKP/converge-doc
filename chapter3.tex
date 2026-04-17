@@ -38,111 +38,124 @@ The primary objective of this project is to successfully design, develop, and de
 
 \newpage
 \subsection{Product Features}
-\subsubsection{Smart Booking Engine}
-\textbf{Description:} Automatically matches parent/student requests with valid instructors, time slots, and rooms. \\
+
+\subsubsection{Automated Data Ingestion Form}
+\textbf{Description:} An account-less, structured web form where teachers select their identity to submit their weekly availability. \\
+\textbf{Actor:} Instructors (Teachers) \\
+\textbf{Details:}
+\begin{itemize}
+    \item \textbf{Structured Input:}
+    \begin{itemize}
+        \item Replaces unstructured LINE chat paragraphs with a strict data validation layer.
+    \end{itemize}
+    
+    \item \textbf{Data Normalization:}
+    \begin{itemize}
+        \item Ensures all instructor availability is instantly normalized into discrete binary matrices before entering the database, eliminating the need for administrative manual data entry.
+    \end{itemize}
+\end{itemize}
+
+\subsubsection{Constraint Satisfaction AI Engine}
+\textbf{Description:} Automatically matches parent/student requests with valid instructors and time slots by evaluating variables as a formal Constraint Satisfaction Problem (CSP). \\
 \textbf{Actor:} Admin \\
 \textbf{Details:}
 \begin{itemize}
     \item \textbf{Request Input:}
     \begin{itemize}
-        \item Admin must input subject and branch to initiate the search.
-        \item Selection of a Preferred Time and Specific Instructor is optional, allowing the system to suggest all available possibilities.
+        \item Admin inputs the requested subject and target branch. Specific time and instructor preferences are optional, allowing the system to suggest all possibilities.
     \end{itemize}
     
     \item \textbf{Constraint-Based Filtering:}
     \begin{itemize}
-        \item Filters instructors based on availability, and subject expertise.
+        \item Evaluates hard limits (instructor availability, branch capacity) to mathematically guarantee conflict-free schedules.
     \end{itemize}
     
-    \item \textbf{Auto Suggestion:}
+    \item \textbf{Heuristic Auto-Suggestion:}
     \begin{itemize}
-        \item Displays only valid booking options in real-time.
-        \item Suggests alternative instructors or time if the specific request is unavailable.
-    \end{itemize}
-    
-    \item \textbf{Booking Confirmation:}
-    \begin{itemize}
-        \item Automatically generates a digital summary of the finalized schedule once a booking is created.
+        \item If exact requests fail, the engine uses heuristic scoring to instantly suggest the next best optimal alternatives in real-time.
     \end{itemize}
 \end{itemize}
 
-\subsubsection{Commute-Aware Scheduling}
-\textbf{Description:} Enforces travel time whenever an instructor needs to change branch locations. \\
-\textbf{Actor:} Admin \\
+\subsubsection{Inter-Branch Transit Matrix}
+\textbf{Description:} A configuration-driven module that automatically enforces deterministic travel buffers when an instructor changes branch locations. \\
+\textbf{Actor:} System / Admin \\
 \textbf{Details:}
 \begin{itemize}
-    \item \textbf{Travel Buffer Enforcement:}
+    \item \textbf{Matrix Configuration:}
     \begin{itemize}
-        \item Automatically shifts the next available start time forward by the fixed duration.
+        \item Provides an interface for administrators to define custom travel durations between specific branch pairs. Any pair without a custom value automatically falls back to a system-wide default.
     \end{itemize}
     
-    \item \textbf{Deterministic Logic:}
+    \item \textbf{Deterministic Buffer Injection:}
     \begin{itemize}
-        \item Uses predefined travel times between branches or a default of 30 minutes.
+        \item Automatically shifts an instructor's available start time based on the matrix, instantly pruning physically impossible transit paths from the search space without relying on external APIs.
     \end{itemize}
     
     \item \textbf{Visual Buffer Integrity:}
     \begin{itemize}
-        \item The master schedule displays the commute as a specific \enquote{Travel Needed} making it clear to the administrator why a tutor's availability has been shifted.
+        \item The master schedule explicitly displays these calculated commutes as \enquote{Travel Needed} to ensure operational clarity for administrators.
     \end{itemize}
 \end{itemize}
 
 \newpage
-\subsubsection{Automatic Room Management}
-\textbf{Description:} Allocates and manages classroom resources automatically. \\
-\textbf{Actor:} Admin \\
+\subsubsection{Branch Capacity Monitoring}
+\textbf{Description:} A constraint module that monitors total concurrent classes against the fixed physical capacity of each branch to prevent overbooking. \\
+\textbf{Actor:} System \\
 \textbf{Details:}
 \begin{itemize}
-    \item \textbf{Room Management:}
+    \item \textbf{Capacity Definition:}
     \begin{itemize}
-        \item Provides an interface to add new branch locations and modify rooms of existing branches.
+        \item Administrators define a fixed integer representing the total number of usable spaces at each branch. The system tracks this total threshold rather than assigning specific named rooms.
     \end{itemize}
 
-    \item \textbf{Branch Travel Configuration:}
+    \item \textbf{Concurrent Tracking:}
     \begin{itemize}
-        \item Provides an interface for administrators to define and modify custom travel times between specific branch pairs. Any pair without a custom value automatically falls back to the system-wide default of 30 minutes.
+        \item Continuously calculates the total number of overlapping bookings at a given branch during a requested time slot.
     \end{itemize}
     
-    \item \textbf{Standardized Allocation:}
+    \item \textbf{Capacity Feedback \& Prevention:}
     \begin{itemize}
-        \item Automatically pairs every booking with any available room at the target branch.
-    \end{itemize}
-    
-    \item \textbf{Capacity Feedback:}
-    \begin{itemize}
-        \item Explicitly displays a \enquote{No Room Available} status for time slots where all physical spaces at a branch are already occupied.
+        \item Explicitly flags time slots as \enquote{At Capacity} if a new booking would exceed the physical threshold, systematically preventing branch overbooking before a schedule is confirmed.
     \end{itemize}
 \end{itemize}
 
-\subsubsection{Centralized Schedule Dashboard}
-\textbf{Description:} Provides a unified interface to manage all schedules. \\
+\subsubsection{Interactive XAI Decision Dashboard}
+\textbf{Description:} A centralized web interface that replaces static spreadsheets, acting as the administration's single source of truth and Explainable AI (XAI) hub. \\
 \textbf{Actor:} Admin \\
 \textbf{Details:}
 \begin{itemize}
     \item \textbf{Instructor Booking List:}
     \begin{itemize}
-        \item Displays a structured list of all teachers and their complete set of booked classes across all dates.
+        \item Displays a structured, real-time list of all teachers and their complete set of booked classes across all dates.
     \end{itemize}
     
-    \item \textbf{Alternative Visualizations:}
+    \item \textbf{Decision Trace Logs:}
     \begin{itemize}
-        \item Provides a toggleable calendar view as a visual alternative to the text-based assignment list.
-        \item Displays commute buffers as explicit non-teaching blocks to ensure logging accuracy.
+        \item Exposes the heuristic scoring of the backend engine, visually explaining why certain times are blocked (e.g., commute violations or capacity limits) to aid staff in client negotiations.
     \end{itemize}
     
-    \item \textbf{Operational Filtering \& Management:}
+    \item \textbf{Operational Filtering:}
     \begin{itemize}
-        \item Enables filtering by specific instructor or branch.
-        \item Includes the administrative interface for managing teachers and booking. 
-    \end{itemize}
-    
-    \item \textbf{Commute Time Configuration:}
-    \begin{itemize}
-        \item Provides the interface for administrators to manage global system settings, such as modifying default commute constraints. 
+        \item Enables instant filtering by specific instructors, branches, and dates without the visual clutter of standard spreadsheet software.
     \end{itemize}
 \end{itemize}
 
-\newpage
+\subsubsection{Automated Disaster Recovery}
+\textbf{Description:} A backend pipeline that ensures business continuity and enterprise data sovereignty. \\
+\textbf{Actor:} System \\
+\textbf{Details:}
+\begin{itemize}
+    \item \textbf{Asynchronous Snapshots:}
+    \begin{itemize}
+        \item Generates scheduled, automated database snapshots without interrupting real-time scheduling operations.
+    \end{itemize}
+    
+    \item \textbf{Rapid Restoration:}
+    \begin{itemize}
+        \item Provides secure recovery points to quickly restore multi-branch schedules and maintain business operations in the event of hardware failure or database corruption.
+    \end{itemize}
+\end{itemize}
+
 \subsection{SDLC}
 Based on our project scope and team size, we decided to use Agile methodologies. It is perfectly suited for a small, remote team like ours that is still in the learning phase and operating under short deadlines. Agile provides the exact flexibility we need to adapt and succeed.
 

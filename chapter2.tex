@@ -24,14 +24,19 @@
 \newpage
 \subsection{Architectural Foundations \& Prior Art}
 Because generic SaaS tools fail to process spatial-temporal routing and multi-variable constraints, Converge abandons standard scheduling APIs. Instead, the system architecture is built upon established Operations Research and Artificial Intelligence methodologies to solve these specific logistical bottlenecks.
+
 \subsubsection{Constraint Satisfaction Modeling for NP-Hard Problems}
 Scheduling a distributed workforce across multiple physical locations is formally classified in computer science as an NP-hard optimization problem. If a standard brute-force algorithm attempts to examine every possible schedule combination, the time required to find a solution rises exponentially, leading to system failure at an enterprise scale.
 
-To resolve this, the Converge core scheduling engine is modeled directly on Constraint Logic Programming (CLP) methodologies\cite{elsakka2015}. By formulating the tutoring schedule as a formal Constraint Satisfaction Problem (CSP), the architecture mathematically isolates hard constraints from soft constraints. The AI engine enforces strict physical realities such as ensuring an instructor is required only once at any given time point, and verifying that physical room occupancy does not exceed capacity before a schedule can be validated. This constraint-based approach guarantees mathematically conflict-free resource allocation without exhausting server memory.
-\subsubsection{Spatial-Temporal Routing Constraints}
-Generic SaaS scheduling applications are fundamentally ignorant of physical geography, relying entirely on simple temporal time-blocking. However, experience within the timetabling research community dictates that every single institution has its own unique rules, conventions, and operational fixations, rendering off-the-shelf software insufficient for specialized educational logistics\cite{ceschia2022}.
+To resolve this, the Converge core scheduling engine is modeled directly on Constraint Logic Programming (CLP) methodologies\cite{elsakka2015}. By formulating the tutoring schedule as a formal Constraint Satisfaction Problem (CSP), the architecture mathematically isolates hard constraints from soft constraints. The AI engine enforces strict physical realities such as ensuring an instructor is scheduled only once at any given time point, and mathematically verifying that the total number of concurrent bookings does not exceed the fixed physical capacity of a given branch. By monitoring the overall branch capacity threshold rather than attempting to assign specific physical rooms, the engine systematically prevents branch overbooking before a schedule can be validated. This constraint-based approach guarantees mathematically conflict-free resource allocation without exhausting server memory.
 
-A critical requirement of the Converge architecture is the dynamic dispatching of personnel between physical branches. Addressing this requires a "rich formulation" that incorporates spatial-temporal routing constraints. As highlighted by recent state-of-the-art international timetabling benchmarks, such as the ITC-2019 dataset \cite{ceschia2022}, processing dynamic inter-branch travel times is a hallmark of complex real-world scheduling. Converge implements these findings by utilizing a customizable, pre-configured travel time matrix. By calculating commute buffers based on admin-defined durations between the instructor's previous and upcoming branches, the system instantly prunes invalid paths from the combinatorial search space to prevent impossible transit requirements.
+\subsubsection{Inter-Branch Transit Matrix}
+Generic SaaS scheduling applications are fundamentally ignorant of physical geography, relying entirely on simple temporal time-blocking. However, experience within the timetabling research community dictates that every single institution operates under unique spatial and operational constraints, rendering off-the-shelf software insufficient for specialized educational logistics\cite{ceschia2022}.
+
+A critical requirement of the Converge architecture is safely dispatching personnel between physical branches without relying on fragile, third-party geographic location APIs. As established by state-of-the-art timetabling benchmarks like the ITC-2019 formulation\cite{ceschia2022}, accounting for specific travel times between physical locations is a foundational requirement for generating valid, real-world schedules. Rather than introducing the unacceptable latency and system dependency of live spatial-routing APIs, Converge addresses this requirement by implementing a deterministic Inter-Branch Transit Matrix.
+
+By calculating commute buffers based on an admin-defined, pre-configured travel duration matrix between branch pairs, the system automatically injects the required transit time into the scheduling engine. This approach instantly prunes physically impossible paths from the combinatorial search space, eliminating human errors caused by missed travel buffers while maintaining a secure, self-contained architectural boundary.
+
 \subsubsection{Heuristic Search and Interactive Explainable AI (XAI)}
 When exact matches for student requests fail due to spatial-temporal or resource limitations, the system must calculate optimized alternatives. Because the search space is massive, the architecture implements Heuristic Search methodologies to rapidly score and return the next highest-scoring schedule vectors\cite{schaerf1999}.
 
@@ -51,6 +56,7 @@ We chose \textbf{TypeScript}\cite{typescript_ref} over JavaScript as the fronten
 \vspace{0.5cm}\\
 \input{tables/frontend_language}
 
+\newpage
 \subsubsection{Frontend Framework}
 \noindent
 \begin{minipage}{0.15\textwidth}
@@ -64,7 +70,6 @@ We chose \textbf{VueJS}\cite{vuejs_ref} over React because its lower learning cu
 \vspace{0.5cm} \\
 \input{tables/frontend_framework}
 
-\newpage
 \subsubsection{Backend Language}
 \noindent
 \begin{minipage}{0.15\textwidth}
@@ -91,7 +96,6 @@ We chose the \textbf{Gin}\cite{gin_ref} framework over Go’s native standard li
 \vspace{0.5cm} \\
 \input{tables/backend_framework}
 
-\newpage
 \subsubsection{Database}
 \noindent
 \begin{minipage}{0.15\textwidth}
@@ -118,7 +122,6 @@ We chose \textbf{Hexagonal Architecture}\cite{hexagonal_ref} as the backend arch
 \vspace{0.5cm} \\
 \input{tables/architecture}
 
-\newpage
 \subsubsection{Deployment Architecture}
 \noindent
 \begin{minipage}{0.15\textwidth}
