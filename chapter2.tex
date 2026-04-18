@@ -25,17 +25,19 @@
 \subsection{Architectural Foundations \& Prior Art}
 Because generic SaaS tools fail to process spatial-temporal routing and multi-variable constraints, Converge abandons standard scheduling APIs. Instead, the system architecture is built upon established Operations Research and Artificial Intelligence methodologies to solve these specific logistical bottlenecks.
 
-\subsubsection{Constraint Satisfaction Modeling for NP-Hard Problems}
-Scheduling a distributed workforce across multiple physical locations is formally classified in computer science as an NP-hard optimization problem. If a standard brute-force algorithm attempts to examine every possible schedule combination, the time required to find a solution rises exponentially, leading to system failure at an enterprise scale.
+\subsubsection{Constraint Satisfaction Modeling for Complex Timetabling}
+Educational timetabling is a highly complex scheduling problem. As the number of instructors, branches, and time slots increases, the possible scheduling combinations grow exponentially, making it very difficult to process\cite{schaerf1999}. 
 
-To resolve this, the Converge core scheduling engine is modeled directly on Constraint Logic Programming (CLP) methodologies\cite{elsakka2015}. By formulating the tutoring schedule as a formal Constraint Satisfaction Problem (CSP), the architecture mathematically isolates hard constraints from soft constraints. The AI engine enforces strict physical realities such as ensuring an instructor is scheduled only once at any given time point, and mathematically verifying that the total number of concurrent bookings does not exceed the fixed physical capacity of a given branch. By monitoring the overall branch capacity threshold rather than attempting to assign specific physical rooms, the engine systematically prevents branch overbooking before a schedule can be validated. This constraint-based approach guarantees mathematically conflict-free resource allocation without exhausting server memory.
+Rather than relying on a generalized model, Converge defines a specific set of rules tailored to multi-branch tutoring centers. The AI engine enforces strict physical realities (Hard Constraints)—such as ensuring an instructor is scheduled only once at any given time, and verifying that the total number of concurrent bookings does not exceed the fixed physical capacity of a branch. 
 
-\subsubsection{Inter-Branch Transit Matrix}
+As established in timetabling literature\cite{elsakka2015}, the objective of the Converge engine is not to brute-force a single \enquote{perfect} schedule, as that requires too much computing power at scale. Instead, the system focuses on generating valid, conflict-free schedules that strictly follow all hard rules, while doing its best to satisfy administrative preferences (Soft Constraints) using an automated scoring system.
+
+\subsubsection{Travel Buffer System}
 Generic SaaS scheduling applications are fundamentally ignorant of physical geography, relying entirely on simple temporal time-blocking. However, experience within the timetabling research community dictates that every single institution operates under unique spatial and operational constraints, rendering off-the-shelf software insufficient for specialized educational logistics\cite{ceschia2022}.
 
 A critical requirement of the Converge architecture is safely dispatching personnel between physical branches without relying on fragile, third-party geographic location APIs. As established by state-of-the-art timetabling benchmarks like the ITC-2019 formulation\cite{ceschia2022}, accounting for specific travel times between physical locations is a foundational requirement for generating valid, real-world schedules. Rather than introducing the unacceptable latency and system dependency of live spatial-routing APIs, Converge addresses this requirement by implementing a deterministic Inter-Branch Transit Matrix.
 
-By calculating commute buffers based on an admin-defined, pre-configured travel duration matrix between branch pairs, the system automatically injects the required transit time into the scheduling engine. This approach instantly prunes physically impossible paths from the combinatorial search space, eliminating human errors caused by missed travel buffers while maintaining a secure, self-contained architectural boundary.
+By calculating commute buffers based on an admin-defined, pre-configured travel duration matrix between branch pairs, the system automatically injects the required transit time into the scheduling engine. This approach instantly filters out physically impossible transit routes, keeping the system fast and preventing human errors caused by missed travel buffers.
 
 \subsubsection{Heuristic Search and Interactive Explainable AI (XAI)}
 When exact matches for student requests fail due to spatial-temporal or resource limitations, the system must calculate optimized alternatives. Because the search space is massive, the architecture implements Heuristic Search methodologies to rapidly score and return the next highest-scoring schedule vectors\cite{schaerf1999}.
@@ -144,7 +146,7 @@ We chose a \textbf{Modular Monolith}\cite{architecture_ref} over both Microservi
 \end{minipage}
 \hfill
 \begin{minipage}{0.82\textwidth}
-We chose \textbf{Docker}\cite{docker_ref} for containerization over traditional bare-metal because it guarantees environment consistency across development. By packaging the application and its dependencies into a single image, we eliminate environment-specific bugs. In making this choice, we accept the tradeoff of an increased learning curve, as the entire development team must understand Docker.
+We chose \textbf{Docker}\cite{docker_ref} for containerization over traditional bare-metal because it keeps the setup environment consistency across development. By packaging the application and its dependencies into a single image, we eliminate environment-specific bugs. In making this choice, we accept the tradeoff of an increased learning curve, as the entire development team must understand Docker.
 \end{minipage}
 \vspace{0.5cm} \\
 \input{tables/docker}

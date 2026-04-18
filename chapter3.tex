@@ -5,7 +5,7 @@
 The primary objective of this project is to successfully design, develop, and deploy the Converge scheduling system. By the end of the development lifecycle, the project aims to achieve the following measurable goals:
 \begin{enumerate}
     \item \textbf{Automate the Booking Workflow:} To drastically reduce the estimated 1 to 2 hours of daily administrative overhead  by replacing manual spreadsheet filtering and repetitive messaging with an automated matching engine.
-    \item \textbf{Eliminate Scheduling Conflicts:} To implement a commute-aware algorithm and automated room allocation system that mathematically guarantees zero double-bookings and enforces realistic cross-branch travel buffers for instructors.
+    \item \textbf{Eliminate Scheduling Conflicts:} To implement a commute-aware algorithm and automated room allocation system that is built to stop double-bookings and enforces cross-branch travel buffers for instructors.
     \item \textbf{Enhance Operational Visibility:} To deliver a centralized, interactive web dashboard that provides business owners and administrators with a single, real-time source of truth for branch operations.
     \item \textbf{Implement a Scalable Architecture:} To engineer a robust backend utilizing a Modular Monolith and Hexagonal Architecture, ensuring the core scheduling domain is testable, highly maintainable, and prepared for future organizational scaling.
 \end{enumerate}
@@ -56,7 +56,7 @@ The primary objective of this project is to successfully design, develop, and de
 \end{itemize}
 
 \subsubsection{Constraint Satisfaction AI Engine}
-\textbf{Description:} Automatically matches parent/student requests with valid instructors and time slots by evaluating variables as a formal Constraint Satisfaction Problem (CSP). \\
+\textbf{Description:} Evaluates hard limits (instructor availability, branch capacity) to output valid, rule-compliant schedules, rather than attempting to brute-force a single perfect solution. \\
 \textbf{Actor:} Admin \\
 \textbf{Details:}
 \begin{itemize}
@@ -76,19 +76,19 @@ The primary objective of this project is to successfully design, develop, and de
     \end{itemize}
 \end{itemize}
 
-\subsubsection{Inter-Branch Transit Matrix}
+\subsubsection{Travel Buffer System}
 \textbf{Description:} A configuration-driven module that automatically enforces deterministic travel buffers when an instructor changes branch locations. \\
 \textbf{Actor:} System / Admin \\
 \textbf{Details:}
 \begin{itemize}
-    \item \textbf{Matrix Configuration:}
+    \item \textbf{Buffer Configuration:}
     \begin{itemize}
         \item Provides an interface for administrators to define custom travel durations between specific branch pairs. Any pair without a custom value automatically falls back to a system-wide default.
     \end{itemize}
     
-    \item \textbf{Deterministic Buffer Injection:}
+    \item \textbf{Deterministic Injection:}
     \begin{itemize}
-        \item Automatically shifts an instructor's available start time based on the matrix, instantly pruning physically impossible transit paths from the search space without relying on external APIs.
+        \item Automatically shifts an instructor's available start time based on the configured durations, instantly pruning physically impossible transit paths from the search space without relying on external APIs.
     \end{itemize}
     
     \item \textbf{Visual Buffer Integrity:}
@@ -97,7 +97,6 @@ The primary objective of this project is to successfully design, develop, and de
     \end{itemize}
 \end{itemize}
 
-\newpage
 \subsubsection{Branch Capacity Monitoring}
 \textbf{Description:} A constraint module that monitors total concurrent classes against the fixed physical capacity of each branch to prevent overbooking. \\
 \textbf{Actor:} System \\

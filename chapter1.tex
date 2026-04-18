@@ -3,14 +3,14 @@
 \subsection{Motivation}
 Multi-branch tutoring centers operate in a highly dynamic environment where instructors frequently rotate between different branches to meet student demand. For these institutions, efficient scheduling is the operational backbone however, as the number of students, teachers, and physical branches grows, the complexity of coordinating weekly classes scales exponentially. Currently, administrators rely on manual systems to manage the schedule.
 
-The booking process begins with a customer selecting a subject, followed by choosing a preferred instructor. The administrator must then manually filter through a static Excel spreadsheet to find and present that specific instructor's available time slots. If none of those times work for the customer, the administrator must repeat the entire filtering process for alternative instructors until a suitable time is found. Once a time is finally selected, the administrator acts as a middleman, sending a minimum of three separate LINE messages: first to the instructor to verify the requested slot, then back to the customer to finalize the booking, and finally to a staff group chat so the class can be manually logged.
+The booking process begins with a customer selecting a subject, followed by choosing a preferred instructor. The administrator must then manually filter through a static Excel spreadsheet to find and present that specific instructor's available time slots. If none of those times work for the customer, the administrator must repeat the entire filtering process for alternative instructors until a suitable time is found. Once a time is finally selected, the administrator acts as a middleman, sending a minimum of three separate LINE messages: first to the instructor to verify the requested slot, then back to the customer to finalize the booking, and finally to a staff group chat, So the class can be manually logged.
 
 When an instructor is booked for consecutive classes at different branches, administrators must manually calculate and block out their standard 30-minute commute buffer. Managing these transition times by hand across dozens of instructors significantly slows down the booking process. Furthermore, without a branch capacity tracking system, branches are prone to overbooking, leading to situations where teachers and students arrive at a branch only to discover that there is no physical space available.
 
-Ultimately, this repetitive workflow consumes an estimated 1 to 2 hours of administrative time each day and introduces significant human error into the weekly recurring schedule, and forces administrators to manually cross reference multiple tables within a massive, cluttered spreadsheet just to find a single available teacher for a requested branch.
+Ultimately, this repetitive workflow consumes an estimated 1 to 2 hours of administrative time each day and introduces significant human error into the weekly recurring schedule, and forces administrators to manually cross-reference multiple tables within a massive, cluttered spreadsheet just to find a single available teacher for a requested branch.
 
 \subsection{Problem Statement}
-Administrators at multi-branch tutoring schools need an automated, commute-aware scheduling system because the current manual workflow wastes up to 2 hours of administrative time daily. The process requires sending at least three messages per booking, relies on a cluttered spreadsheet that obscures operational insights, and frequently results in branch overbooking. To resolve this, the administration requires an algorithmic system capable of automatically evaluating inter-branch travel times and guaranteeing conflict-free resource allocation.
+Administrators at multi-branch tutoring schools need an automated, commute-aware scheduling system because the current manual workflow wastes up to 2 hours of administrative time daily. The process requires sending at least three messages per booking, relies on a cluttered spreadsheet that obscures operational insights, and frequently results in branch overbooking. To resolve this, the administration requires an algorithmic system capable of automatically evaluating inter-branch travel times and making sure schedules is optimal.
 
 \subsection{Purpose}
 The primary purpose of the Converge application is to develop an automated scheduling and resource management system that eliminates the operational bottlenecks and inefficiency associated with manual booking in multi-branch tutoring centers. By replacing fragmented spreadsheet workflows and repetitive messaging with an intelligent, commute-aware engine, this project aims to provide administrators with a centralized platform to seamlessly align student requests, instructor availability, and physical branch capacity in real-time.
@@ -20,20 +20,20 @@ The target users of Converge are categorized into primary users, who interact di
 
 \subsubsection*{Primary Target Users}
 \begin{enumerate}
-    \item Administrator are the primary operators who interact with the system daily to manage incoming requests from parents and input bookings into the interface. Their main objective is to finalize complex, multi-branch schedules in a matter of seconds while the customer is still present, ensuring a seamless and error-free experience. By using an automated system, they aim to eliminate the professional anxiety associated with manual errors, such as overbooking a branch or taking an excessively long time to find an available slot, which can damage the school’s reputation
+    \item Administrator are the primary operators who interact with the system daily to manage incoming requests from parents and input bookings into the interface. Their main objective is to finalize complex, multi-branch schedules in a matter of seconds while the customer is still present, ensuring a smooth and highly reliable booking process. By using an automated system, they aim to eliminate the professional anxiety associated with manual errors, such as overbooking a branch or taking an excessively long time to find an available slot, which can damage the school’s reputation
 \end{enumerate}
 
 \subsubsection*{Secondary Target Users}
 \begin{enumerate}
-    \item Instructors are the secondary users who interact with the system's external data-ingestion form. Their primary objective is to quickly and easily submit their weekly availability using a structured interface, rather than typing unstructured paragraphs in a chat application. Furthermore, they are the primary beneficiaries of the system's routing engine, relying on its mathematical accuracy to ensure they are never double-booked and are always provided with realistic, physically possible commute buffers between branch locations.
+    \item Instructors are the secondary users who interact with the system's external data-ingestion form. Their primary objective is to quickly and easily submit their weekly availability using a structured interface, rather than typing unstructured paragraphs in a chat application. Furthermore, they are the primary beneficiaries of the system's routing engine, relying on its accuracy to ensure they are protected from double-booked and are always provided with realistic, physically possible commute buffers between branch locations.
 \end{enumerate}
 
 \subsection{Project Scope}
 This project focuses on the design and development of Converge, an enterprise-grade scheduling and resource management system utilizing heuristic optimization for multi-branch tutoring centers. The architecture replaces manual, error-prone workflows with an automated decision-support pipeline:
 \begin{enumerate}
     \item \textbf{Automated Data Ingestion Form:} An account-less, structured web form replacing unstructured manual schedule entry, ensuring all instructor availability is normalized into discrete binary matrices before entering the database.
-    \item \textbf{Constraint Satisfaction AI Engine:} A backend algorithm that models tutoring logistics as a formal Constraint Satisfaction Problem (CSP). It mathematically evaluates multi-dimensional requirements to ensure highly optimized, conflict-free schedules.
-    \item \textbf{Inter-Branch Transit Matrix:} A configuration-driven module that utilizes a customizable, admin-defined travel duration matrix between branches. This automatically injects physical commute buffers, instantly pruning the combinatorial search space without relying on external geographic APIs.
+    \item \textbf{Constraint Satisfaction AI Engine:} A backend algorithm that evaluates multiple requirements (instructor availability, branch capacity) to guarantee valid, conflict-free schedules while prioritizing administrative preferences.
+    \item \textbf{Travel Buffer System:} A configuration-driven module that utilizes a customizable, admin-defined travel duration matrix between branches. This automatically injects physical commute buffers, instantly pruning the combinatorial search space without relying on external geographic APIs.
     \item \textbf{Branch Capacity Monitoring:} Monitors concurrent bookings against the fixed physical capacity of each branch, explicitly flagging full time slots to prevent overbooking and ensuring students are never left without physical space.
     \item \textbf{Interactive XAI Decision Dashboard:} A centralized web interface that exposes the heuristic scoring of the backend engine, allowing staff to rapidly understand algorithmic decisions and manually negotiate alternative times with clients based on clear logistical data.
     \item \textbf{Automated Disaster Recovery:} Scheduled, asynchronous database snapshot generation to ensure business continuity and data sovereignty for the B2B client.
@@ -61,22 +61,22 @@ Pain Point &
 Feature Description &
 Codename &
 Success Metric \\
-Teachers submit availability via text paragraphs, admins need to manually intepret and enter data. &
+Teachers submit availability via text paragraphs, admins need to manually interpret and enter data. &
 An account-less, structured web form where teachers select their identity to submit availability, instantly normalizing the data into the database. &
 Data-Ingest Form &
-Eliminate all manual data entry required for instructor availability schedules. \\
+Drastically reduce manual data entry required for instructor availability. \\
 Manual booking workflows waste 1-2 hours daily on complex spreadsheet cross-referencing. &
-Evaluates instructor, room, and time variables as a formal CSP to guarantee conflict-free schedules. &
+Evaluates instructor, room, and time variables as a formal CSP to ensure valid conflict-free schedules. &
 Constraint Satisfaction AI Engine &
 Reduce average booking time to under 2 minutes. \\
-Manual transit calculation is highly vulnerable to human error and missed travel time-blocks. &
+Manual transit calculation is highly vulnerable to human error. &
 Uses a configurable travel matrix to automatically inject physical commute buffers between branches. &
-Transit-Matrix &
+Auto-Buffer &
 Automate transit enforcement to prevent human errors caused by missed travel buffers. \\
 Lack of capacity tracking leads to overbooking a branch, leaving teachers and students without a physical space upon arrival. &
 Monitors concurrent bookings against the fixed physical capacity of each branch, flagging full time slots to prevent overbooking. &
 Capacity-Check &
-Systematically prevent all instances of branch overbooking. \\
+Greatly reduce branch overbooking. \\
 Static spreadsheets create visual complexity and obscure real-time operational insights. &
 A centralized web interface offering real-time visibility, filtered views, and AI decision trace logs. &
 Converge Hub &
